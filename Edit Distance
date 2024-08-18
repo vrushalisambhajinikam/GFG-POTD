@@ -1,0 +1,45 @@
+class Solution:
+	def editDistance(self, str1, str3):
+	    
+	    m = len(str1)
+        n = len(str3)
+
+        # Create a table to store results of subproblems
+        dp = [[0 for _ in range(n + 1)] for _ in range(m + 1)]
+
+        # Fill dp[][] in bottom up manner
+        for i in range(m + 1):
+            for j in range(n + 1):
+                
+                # If first string is empty, only option is to insert all characters of second string
+                if i == 0:
+                    dp[i][j] = j    # Min. operations = j
+                
+                # If second string is empty, only option is to remove all characters of first string
+                elif j == 0:
+                    dp[i][j] = i    # Min. operations = i
+                
+                # If last characters are the same, ignore the last character and recur for the remaining substring
+                elif str1[i - 1] == str3[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1]
+                
+                # If the last character is different, consider all possibilities and find the minimum
+                else:
+                    dp[i][j] = 1 + min(dp[i][j - 1],    # Insert
+                                       dp[i - 1][j],    # Remove
+                                       dp[i - 1][j - 1]) # Replace
+
+        return dp[m][n]
+		# Code here
+ 
+#{ 
+ # Driver Code Starts
+if __name__ == '__main__':
+    T = int(input())
+    for i in range(T):
+        s, t = input().split()
+        ob = Solution()
+        ans = ob.editDistance(s, t)
+        print(ans)
+
+# } Driver Code Ends
