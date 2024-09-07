@@ -1,0 +1,28 @@
+#User function Template for python3
+
+class Solution:
+    def findNth(self, n):
+        count = 0
+        current_num = 0
+
+        # Continue until we've found the nth valid number
+        while count < n:
+            current_num += 1
+            # Check if the current number contains digit '9'
+            if '9' not in str(current_num):
+                count += 1
+
+        return current_num
+
+#{ 
+ # Driver Code Starts
+#Initial Template for Python 3
+
+t = int(input())
+for i in range(0, t):
+    n = int(input())
+    obj = Solution()
+    s = obj.findNth(n)
+    print(s)
+
+# } Driver Code Ends
