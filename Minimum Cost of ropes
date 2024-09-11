@@ -1,0 +1,64 @@
+//{ Driver Code Starts
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine()); // Number of test cases
+
+        while (t-- > 0) {
+            String[] input = br.readLine().split(" ");
+            long[] a = new long[input.length];
+
+            for (int i = 0; i < input.length; i++) {
+                a[i] = Long.parseLong(input[i]);
+            }
+
+            Solution ob = new Solution();
+            System.out.println(ob.minCost(a));
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+//Back-end complete function Template for Java
+class Solution {
+    // Function to return the minimum cost of connecting the ropes.
+     public long minCost(long[] arr) {
+        // Edge case: if there's only one rope, no cost is needed
+        if (arr.length == 1) {
+            return 0;
+        }
+        
+        // Create a PriorityQueue (Min-Heap) to store the ropes
+        PriorityQueue<Long> minHeap = new PriorityQueue<>();
+        
+        // Add all rope lengths into the priority queue
+        for (long rope : arr) {
+            minHeap.add(rope);
+        }
+        
+        long totalCost = 0;
+        
+        // While there are more than one ropes left in the heap
+        while (minHeap.size() > 1) {
+            // Extract the two smallest ropes
+            long first = minHeap.poll();
+            long second = minHeap.poll();
+            
+            // Calculate the cost of connecting them
+            long cost = first + second;
+            
+            // Add this cost to the total cost
+            totalCost += cost;
+            
+            // Insert the resulting rope back into the heap
+            minHeap.add(cost);
+        }
+        
+        return totalCost;
+     }
+    }
