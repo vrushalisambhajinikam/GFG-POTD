@@ -1,0 +1,79 @@
+//{ Driver Code Starts
+import java.util.*;
+
+class GFG {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int tc = scanner.nextInt(); // Number of test cases
+        while (tc-- > 0) {
+            int n = scanner.nextInt(); // Number of rows
+            int m = scanner.nextInt(); // Number of columns
+            char[][] grid = new char[n][m];
+
+            // Read the grid input
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
+                    grid[i][j] = scanner.next().charAt(0);
+                }
+            }
+            Solution obj = new Solution();
+            int ans = obj.numIslands(grid);
+            System.out.println(ans);
+        }
+        scanner.close();
+    }
+}
+
+// } Driver Code Ends
+
+
+class Solution {
+    // Define the directions for 8 possible movements (vertical, horizontal, and diagonal)
+    private static final int[] rowDir = {-1, -1, -1, 0, 1, 1, 1, 0};
+    private static final int[] colDir = {-1, 0, 1, 1, 1, 0, -1, -1};
+    
+    public int numIslands(char[][] grid) {
+        if (grid == null || grid.length == 0) return 0;
+
+        int n = grid.length;
+        int m = grid[0].length;
+        int islandCount = 0;
+
+        // Iterate through each cell in the grid
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                // If the current cell is '1', it's a part of an island
+                if (grid[i][j] == '1') {
+                    // Perform DFS to mark the entire island
+                    dfs(grid, i, j, n, m);
+                    // Increment the island count after DFS
+                    islandCount++;
+                }
+            }
+        }
+        return islandCount;
+    }
+
+    // DFS to explore the connected land (1s)
+    private void dfs(char[][] grid, int row, int col, int n, int m) {
+        // Mark the current cell as visited by setting it to '0'
+        grid[row][col] = '0';
+
+        // Explore all 8 possible directions
+        for (int k = 0; k < 8; k++) {
+            int newRow = row + rowDir[k];
+            int newCol = col + colDir[k];
+            
+            // Check if the new position is within the grid and still part of the island ('1')
+            if (isValid(newRow, newCol, n, m) && grid[newRow][newCol] == '1') {
+                // Recursively explore the new land cell
+                dfs(grid, newRow, newCol, n, m);
+            }
+        }
+    }
+
+    // Helper function to check if a given cell (row, col) is within grid bounds
+    private boolean isValid(int row, int col, int n, int m) {
+        return row >= 0 && row < n && col >= 0 && col < m;
+    }
+}
